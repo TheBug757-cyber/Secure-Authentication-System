@@ -82,6 +82,7 @@ void register_user()
             printf("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.\n");
         
         }
+        encrypt_password(new_user.password, user_list[user_count - 1].password);
     }
 }
 
@@ -89,28 +90,54 @@ void login_user()
 {
     // Implementation for user login
     struct user login_user;
+    int allowed_attempts = 3;
+    while(allowed_attempts > 0) 
+    {
     printf("-----------Login----------------\n");
     printf("Enter your username: \n");
     scanf("%s", login_user.username);
     printf("Enter your password: \n");
     scanf("%s", login_user.password);
-    if(user_count == 0) 
-    {
-        printf("No users registered. Please register first.\n");
-        return;
-    }
-    else
-    {
+    
+    encrypt_password(login_user.password, login_user.password);
+    
         for(int i = 0; i < user_count; i++) 
         {
             if(strcmp(user_list[i].username, login_user.username) == 0 && strcmp(user_list[i].password, login_user.password) == 0) 
             {
                 printf("Login successful! Welcome %s\n", login_user.username);
-                return;
+                break;
             }
-        }
-        printf("Invalid username or password. Please try again.\n");
+            else{
+                allowed_attempts--;
+                if(allowed_attempts == 0) 
+                {
+                    printf("Login failed! No attempts left. Exiting login.\n");
+                    return;
+                } 
+                else 
+                {
+                    printf("Login failed! You have %d attempts left. Please try again.\n", allowed_attempts);
+                    break;
+                }
+            }
+        
+       
     }
+}
+}
+
+void encrypt_password(const char* password, char* encrypted) 
+{
+    //encrypts the password using a simple Caesar cipher with a shift of 3 
+    int length = strlen(password);
+    for (int i = 0; i < length; i++) 
+    {
+        encrypted[i] = password[i] + 3;
+    }   
+    encrypted[length] = '\0';   
+
+}
 
     
-}
+

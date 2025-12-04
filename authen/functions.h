@@ -3,7 +3,7 @@
 
 void register_user();
 void login_user();
-int encrypt_password(const char* password, char* encrypted_password);
+void encrypt_password(const char* password, char* encrypted_password);
 int validate_password(const char* password);
 
 
