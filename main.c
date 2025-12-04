@@ -21,7 +21,7 @@ int main()
         printf("Invalid option. Please try again.\n");
     }
 
-    welcome_message();
+
     return 0;
 
 }
